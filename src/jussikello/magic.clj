@@ -2,7 +2,7 @@
   (:require [clojure.math.combinatorics :as combo]))
 
 (defn pick-interesting [items sample]
-  (map (partial get sample) items))
+  (mapv (partial get sample) items))
 
 (defn calc-freqs [samples items]
   (->> samples
@@ -10,7 +10,9 @@
        frequencies))
 
 (defn get-item-configs [n]
-  (combo/combinations (range 26) n))
+  (->> n
+       (combo/combinations (range 26))
+       (map vec)))
 
 (defn calc-all-freqs [samples n]
   (let [itemses (get-item-configs n)]
